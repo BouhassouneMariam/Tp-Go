@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:8080
+@plaque = AA-123-BB
+
+### Ajouter un véhicule (201 ; 409 si la plaque existe déjà)
+POST {{baseUrl}}/vehicules
+Content-Type: application/json
+
+{
+  "plaque": "{{plaque}}",
+  "marque": "Renault",
+  "modele": "Clio",
+  "annee": 2020,
+  "kilometrage": 42000,
+  "proprietaire": {
+    "nom": "Camille Martin",
+    "telephone": "0612345678"
+  }
+}
+
+### Lister les véhicules (200)
+GET {{baseUrl}}/vehicules
+
+### Consulter le véhicule (200)
+GET {{baseUrl}}/vehicules/{{plaque}}
+
+### Enregistrer une intervention (201)
+POST {{baseUrl}}/vehicules/{{plaque}}/interventions
+Content-Type: application/json
+
+{
+  "date": "2024-03-01",
+  "description": "Vidange et remplacement du filtre",
+  "statut": "en_cours"
+}
+
+### Lister les interventions du véhicule (200)
+GET {{baseUrl}}/vehicules/{{plaque}}/interventions
+
+### Consulter les statistiques (200)
+GET {{baseUrl}}/stats
+
+### Supprimer le véhicule (204 avant toute intervention, sinon 409)
+DELETE {{baseUrl}}/vehicules/{{plaque}}
