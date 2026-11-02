@@ -18,12 +18,12 @@ type Proprietaire struct {
 }
 
 type Vehicule struct {
-	Plaque       string       `json:"plaque"`
-	Marque       string       `json:"marque"`
-	Modele       string       `json:"modele"`
-	Annee        int          `json:"annee"`
-	Kilometrage  int          `json:"kilometrage"`
-	Proprietaire Proprietaire `json:"proprietaire"`
+	Plaque       string `json:"plaque"`
+	Marque       string `json:"marque"`
+	Modele       string `json:"modele"`
+	Annee        int    `json:"annee"`
+	Kilometrage  int    `json:"kilometrage"`
+	Proprietaire `json:"proprietaire"`
 }
 
 const (

@@ -83,7 +83,7 @@ func (g *Garage) Stats(ctx context.Context) (model.Stats, error) {
 		results <- result{statuts: counts, err: err}
 	}()
 	var stats model.Stats
-	for range 2 {
+	for i := 0; i < 2; i++ {
 		r := <-results
 		if r.err != nil {
 			return stats, fmt.Errorf("calculer les statistiques : %w", r.err)

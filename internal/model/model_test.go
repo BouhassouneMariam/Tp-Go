@@ -84,4 +84,17 @@ func TestCompositionJSON(t *testing.T) {
 	if v.Plaque != "AA-123-BB" || v.Proprietaire.Nom != "Camille" || v.Proprietaire.Telephone != "0612345678" {
 		t.Fatalf("composition mal décodée : %+v", v)
 	}
+	data, err := json.Marshal(v)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var response struct {
+		Proprietaire Proprietaire `json:"proprietaire"`
+	}
+	if err := json.Unmarshal(data, &response); err != nil {
+		t.Fatal(err)
+	}
+	if response.Proprietaire != v.Proprietaire {
+		t.Fatalf("objet proprietaire absent de la réponse JSON : %s", data)
+	}
 }

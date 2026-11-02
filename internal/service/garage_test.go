@@ -80,7 +80,7 @@ func TestStatsConcurrentes(t *testing.T) {
 		t.Fatalf("contrainte perdue dans la propagation : %v", err)
 	}
 	var wg sync.WaitGroup
-	for range 10 {
+	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()

@@ -20,7 +20,7 @@ go run ./cmd/api
 
 L'API écoute sur `http://localhost:8080`. Le fichier `garage.db` est créé au
 premier démarrage et conserve les données entre les lancements. `Ctrl+C` arrête
-le serveur en laissant les requêtes en cours se terminer.
+le serveur.
 
 Si le démarrage indique `address already in use`, une autre application utilise
 déjà le port 8080. Il faut libérer ce port avant de lancer l'API, qui conserve
@@ -144,7 +144,7 @@ Les erreurs ont la forme `{"erreur":"message explicatif"}` :
 ## Organisation du code
 
 ```text
-cmd/api/                Démarrage et arrêt du serveur
+cmd/api/                Démarrage du serveur
 internal/apperrors/     Sentinelles et erreur de validation personnalisée
 internal/model/         Structures JSON et validation des données
 internal/repository/    Requêtes SQL et création des tables SQLite
@@ -158,10 +158,11 @@ JSON. Le service valide les données et appelle le repository. SQLite impose aus
 l'unicité des plaques et les clés étrangères, pour que les contraintes restent
 respectées lorsque plusieurs requêtes arrivent simultanément.
 
-`Vehicule` compose une structure `Proprietaire`. La validation utilise des
-récepteurs valeur ; le service et le repository utilisent des récepteurs pointeur
-avec des champs privés. Les erreurs sont propagées avec `%w`, puis reconnues par
-`errors.Is` et `errors.As` pour choisir le code HTTP.
+`Vehicule` intègre `Proprietaire` comme champ anonyme (embedding). Le tag
+`json:"proprietaire"` conserve les coordonnées dans un objet JSON imbriqué.
+La validation utilise des récepteurs valeur ; le service et le repository utilisent
+des récepteurs pointeur avec des champs privés. Les erreurs sont propagées avec
+`%w`, puis reconnues par `errors.Is` et `errors.As` pour choisir le code HTTP.
 
 Les deux comptages de `/stats` sont lancés dans des goroutines et leurs résultats
 passent par un channel. SQLite utilise une seule connexion pour sérialiser les
