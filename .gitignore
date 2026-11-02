@@ -1,0 +1,16 @@
+# Base locale et fichiers SQLite temporaires
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Binaires et rapports de tests
+/bin/
+*.exe
+coverage.out
+
+# Fichiers de l'éditeur et du système
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
